@@ -1,0 +1,39 @@
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+*.cache
+
+# CMake build outputs (Visual Studio default)
+out/
+build*/
+cmake-build*/
+x64/
+Debug/
+Release/
+Bin/
+Obj/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+CMakeLists.txt.user*
+
+# Object files/libraries/executables
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.pdb
