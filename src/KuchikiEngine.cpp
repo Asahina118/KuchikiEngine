@@ -10,11 +10,15 @@
 
 #include "Window/Window.h"
 
+#include "Shaders/Shader.h"
+
 int main()
 {
 	const unsigned SCR_WIDTH = 800;
 	const unsigned SCR_HEIGHT = 600;
 	Window window(SCR_WIDTH, SCR_HEIGHT);
+
+	Shader shader("asd", "asd");
 
 	while (!window.windowShouldClose()) {
 		window.processInput();

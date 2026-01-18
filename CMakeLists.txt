@@ -8,10 +8,17 @@ endif()
 
 find_package(OpenGL REQUIRED)
 
-add_executable (KuchikiEngine 
-	"src/KuchikiEngine.cpp"
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB IMGUI_SOURCES 
+    "src/Imgui/*.cpp"
+)
+
+add_executable (${PROJECT_NAME} 
+	${SOURCES}
+	${IMGUI_SOURCES}
+	src/KuchikiEngine.cpp
 	extern/glad/src/glad.c
- "src/Window/Window.h" "src/Window/Window.cpp" "src/Scene/Scene.h" "src/Camera/Camera.h" "src/Camera/Camera.cpp" "src/Scene/Scene.cpp" "src/Inputs/InputHandler.h" "src/Inputs/GUI.h" "src/Shaders/Shader.h" "src/Entities/Mesh.h" "src/Entities/Shape.h"  "src/Inputs/GUI.cpp")
+)
 
 add_subdirectory(extern/glfw)
 
