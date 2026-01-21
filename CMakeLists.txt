@@ -8,12 +8,22 @@ endif()
 
 find_package(OpenGL REQUIRED)
 
-add_executable (KuchikiEngine 
-	"src/KuchikiEngine.cpp"
-	extern/glad/src/glad.c
- "src/Window/Window.h" "src/Window/Window.cpp" "src/Scene/Scene.h" "src/Camera/Camera.h" "src/Camera/Camera.cpp" "src/Scene/Scene.cpp" "src/Inputs/InputHandler.h" "src/Inputs/GUI.h" "src/Shaders/Shader.h" "src/Entities/Mesh.h" "src/Entities/Shape.h"  "src/Inputs/GUI.cpp")
+file(GLOB_RECURSE SOURCES "src/*.cpp")
+file(GLOB IMGUI_SOURCES 
+    "src/Imgui/*.cpp"
+)
 
-add_subdirectory(extern/glfw)
+add_executable (${PROJECT_NAME} 
+	${SOURCES}
+	${IMGUI_SOURCES}
+	src/KuchikiEngine.cpp
+	extern/glad/src/glad.c
+)
+
+add_subdirectory(
+	extern/glfw
+	extern/quill_logger
+)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
 	glfw
@@ -22,8 +32,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 target_include_directories(${PROJECT_NAME} PRIVATE
 	extern/glad/include
+	extern/quill_logger/include
 	extern
 	src/
 )
+
+file(
+	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GLSL
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(
+	COPY ${CMAKE_CURRENT_SOURCE_DIR}/src/GLSL
+	DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 set_property(TARGET KuchikiEngine PROPERTY CXX_STANDARD 20)

@@ -7,7 +7,7 @@
 class Camera
 {
 public:
-	static enum CameraMovement
+	enum class CameraMovement
 	{
 		FORWARD,
 		BACKWARD,
@@ -19,12 +19,14 @@ public:
 
 	Camera(
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f),
 		float theta = 90.0f,
 		float phi = 0.0f
 	);
 
-	glm::mat4 getView();
+	Camera() = delete;
+
+	glm::mat4 getViewMatrix() const;
 
 	void processKeyboard(CameraMovement direction, float deltaTime);
 
@@ -35,7 +37,7 @@ public:
 private:
 	glm::vec3 front;
 	glm::vec3 position;
-	glm::vec3 up;
+	glm::vec3 worldUp;
 	glm::vec3 right;
 
 	float theta;
