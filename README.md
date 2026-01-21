@@ -8,7 +8,7 @@ requires OpenGL installed:
 sudo apt install libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev
 ```
 ```bash
-git clone https://github.com/Asahina118/KuchikiEngine.git
+git clone https://github.com/Asahina118/Kuchiki-Engine.git
 ```
 ```bash
 cmake -S . -B out/build -G "Ninja"
