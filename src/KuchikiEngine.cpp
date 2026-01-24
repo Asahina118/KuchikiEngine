@@ -6,6 +6,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#ifndef STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_IMPLEMENTATION
+#endif
 #include <stb_image/stb_image.h>
 
 #include "Window/Window.h"
@@ -43,6 +46,29 @@ int main()
 
 	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
 
+
+	// texture loading
+	uint32_t texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int32_t width, height, nrChannels;
+	unsigned char* data = stbi_load("Resources/container.jpg", &width, &height, &nrChannels, 0);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else {
+		quill::error(logger, "Failed to load texture");
+	}
+	stbi_image_free(data);
+
+
 	while (!window.windowShouldClose()) {
 		window.processInput();
 
@@ -50,6 +76,8 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		shader.use();
+		float time = glfwGetTime();
+		shader.setVec4("color", glm::sin(time), glm::sin(time), glm::sin(time), 1.0f);
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
