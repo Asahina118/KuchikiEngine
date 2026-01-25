@@ -12,12 +12,19 @@
 #include <stb_image/stb_image.h>
 
 #include "Window/Window.h"
-
 #include "Shader/Shader.h"
 #include "Entities/Shapes.h"
+#include "Inputs/InputHandler.h"
+#include "Camera/Camera.h"
 
 #include <quill/SimpleSetup.h>
 #include <quill/LogFunctions.h>
+
+void printCameraInfo(const Camera& camera)
+{
+	glm::vec3 camPos = camera.getPosition();
+	std::cout << camPos.x << ", " << camPos.y << ", " << camPos.z << std::endl;
+}
 
 int main()
 {
@@ -26,8 +33,11 @@ int main()
 
 	const unsigned SCR_WIDTH = 800;
 	const unsigned SCR_HEIGHT = 600;
+	Camera camera;
 	Window window(SCR_WIDTH, SCR_HEIGHT);
-
+	InputHandler inputHandler(window, camera);
+	
+	// Mesh ======================================================
 	uint32_t VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -48,9 +58,13 @@ int main()
 
 	glBindVertexArray(0);
 
+	// end Mesh ==================================================
+
 	Shader shader("GLSL/cube.vert", "GLSL/cube.frag");
 	shader.use();
 	shader.setInt("simpleTexture", 0);
+	shader.setMat4("model", glm::mat4(1.0f));
+
 
 
 	// texture loading
@@ -81,15 +95,23 @@ int main()
 
 
 	while (!window.windowShouldClose()) {
-		window.processInput();
+		inputHandler.processInput();
+
+		printCameraInfo(camera);//debug
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		// render ============================================
 		shader.use();
+		shader.setMat4("view", camera.getViewMatrix());
+		shader.setMat4("proj", camera.getProjMatrix());
+
 		glBindVertexArray(VAO);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		// end render ========================================
 
 		glfwSwapBuffers(window.getWindow());
 		glfwPollEvents();

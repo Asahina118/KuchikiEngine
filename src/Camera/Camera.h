@@ -14,19 +14,20 @@ public:
 		LEFT,
 		RIGHT,
 		UP,
-		DOWN
+		DOWN,
+		SPRINT
 	};
 
 	Camera(
 		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f),
+		glm::vec3 front = glm::vec3(0.0f, 0.0f, 1.0f),
 		float theta = 90.0f,
 		float phi = 0.0f
 	);
 
-	Camera() = delete;
-
 	glm::mat4 getViewMatrix() const;
+	glm::mat4 getProjMatrix() const;
 
 	void processKeyboard(CameraMovement direction, float deltaTime);
 
@@ -34,24 +35,26 @@ public:
 
 	void processMouseScroll(float yOffset);
 
+	glm::vec3 getPosition() const;
+
 private:
-	glm::vec3 front;
-	glm::vec3 position;
-	glm::vec3 worldUp;
-	glm::vec3 right;
+	glm::vec3 m_front;
+	glm::vec3 m_position;
+	glm::vec3 m_worldUp;
+	glm::vec3 m_right;
 
-	float theta;
-	float phi;
+	float m_theta;
+	float m_phi;
 
-	float movementSpeed;
-	float mouseSensitivity;
-	float zoom;
-	float sprintSpeed;
-	float FOV;
+	float m_movementSpeed;
+	float m_mouseSensitivity;
+	float m_zoom;
+	float m_sprintSpeed;
+	float m_FOV;
 
-	bool firstMouse;
-	bool enableFlashlight;
-	bool stopUpdating;
+	bool m_firstMouse;
+	bool m_enableFlashlight;
+	bool m_stopUpdating;
 
 	void updateCameraVectors();
 };

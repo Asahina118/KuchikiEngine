@@ -64,7 +64,5 @@ void Window::setWindowShouldClose(bool shouldClose)
 
 void Window::processInput()
 {
-	if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		setWindowShouldClose(true);
-	}
+
 }
