@@ -20,7 +20,6 @@ endif()
 add_executable (${PROJECT_NAME} 
 	${SOURCES}
 	${IMGUI_SOURCES}
-	src/KuchikiEngine.cpp
 	extern/glad/src/glad.c
 )
 
